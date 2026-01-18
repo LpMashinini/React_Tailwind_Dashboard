@@ -1,10 +1,101 @@
-import { Zap } from "lucide-react"
+import {
+    BarChart3,
+    LayoutDashboard,
+    Users,
+    Zap,
+    Calendar,
+    CreditCard,
+    FileText,
+    MessageSquare,
+    Package,
+    Settings,
+    ShoppingBag,
+    ChevronDown
+} from "lucide-react"
 
+
+const menuItems = [
+
+    {
+        id: "dashboard",
+        icon: LayoutDashboard,
+        label: "Dashboard",
+        active: true,
+        badge: "New",
+    },
+    {
+        id: "Analytics",
+        icon: BarChart3,
+        label: "Analytics",
+        submenu: [
+            { id: "overview", label: "Overview" },
+            { id: "report", label: "Reports" },
+            { id: "insight", label: "Insight" }
+        ],
+    },
+
+    {
+        id: "Users",
+        icon: Users,
+        label: "Users",
+        count: "2.4k",
+        submenu: [
+            { id: "All-users", label: "All Users" },
+            { id: "roles", label: "Roles & Permissions" },
+            { id: "activity", label: "User Activity" }
+        ],
+    },
+
+    {
+        id: "ecommerce",
+        icon: ShoppingBag,
+        label: "E-Commerce",
+        submenu: [
+            { id: "products", label: "Products" },
+            { id: "orders", label: "Orders" },
+            { id: "customers", label: "Customers" }
+        ],
+    },
+    {
+        id: "Inventory",
+        icon: Package,
+        label: "Inventroy",
+        count: "847",
+    },
+    {
+        id: "transactions",
+        icon: CreditCard,
+        label: "Transactions",
+    },
+    {
+        id: "messages",
+        icon: MessageSquare,
+        label: "Messages",
+        badge: "12",
+    },
+    {
+        id: "calender",
+        icon: Calendar,
+        label: "Calender",
+    },
+    {
+        id: "reports",
+        icon: FileText,
+        label: "Reports",
+    },
+    {
+        id: "settings",
+        icon: Settings,
+        label: "Settings",
+    },
+];
 
 const Sidebar = () => {
+
+
     return (
 
-        <div className="transition duration-300 ease-in-out bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-slate-200/50 dark:border-slate-700/50 flex flex-col relative z-10">
+        <div className="w-72 transition duration-300 ease-in-out bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-slate-200/50 dark:border-slate-700/50 flex flex-col relative z-10">
 
             {/* Logo */}
             <div className="p-6 border-slate-200/50 dark:border-slate-700/50">
@@ -28,7 +119,38 @@ const Sidebar = () => {
             {/* Navigation */}
 
             <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+                {menuItems.map((item) => {
+                    return (
+                        <div key={item.id}>
+                            <button className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-200`}>
+                                <div className="flex items-center space-x-3">
+                                    <item.icon className={`w-5 h-5`} />
+                                    {/* Conditional Rendering */}
 
+                                    <>
+                                        <span className="font-medium ml-2">{item.label}</span>
+                                        {item.badge && (
+                                            <span className="px-2 py-1 text-xs bg-red-500 text-white rounded-full">{item.badge}</span>
+                                        )}
+                                        {item.count && (
+                                            <span className="px-2' py-1 text-xs bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full">{item.count}</span>
+                                        )}
+                                    </>
+                                </div>
+                                {item.submenu && (
+                                    <ChevronDown className="w-4 h-4 transition-transform" />
+                                )}
+                            </button>
+
+                            {/* Sub menus */}
+                            <div className="ml-8 mt-2 space-y-1">
+                                {/* {item.submenu.map( (subitem) => {
+                                    return <button>{subitem.label}</button>
+                                })} */}
+                            </div>
+                        </div>
+                    )
+                })}
             </nav>
 
             {/* User Profile */}
