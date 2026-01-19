@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import Sidebar from './Components/Layout/Sidebar'
 import Header from './Components/Layout/Header'
+import Dashboard from './Components/dashboard/Dashboard';
 
 const App = () => {
 
@@ -20,7 +21,15 @@ const App = () => {
         />
 
         <div className='flex-1 flex flex-col overflow-hidden'>
-          <Header sideBarCollapsed={sideBarCollapsed} onToggleSidebar={() => setSideBarCollapsed(!sideBarCollapsed)} />
+          <Header 
+          sideBarCollapsed={sideBarCollapsed} 
+          onToggleSidebar={() => setSideBarCollapsed(!sideBarCollapsed)} />
+
+          <main className='flex-1 overflow-y-auto bg-transparent'>
+            <div className="p-6 space-y-6">
+              {currentPage === "dashboard" && <Dashboard/>}
+            </div>
+          </main>
         </div>
       </div>
     </div>
