@@ -12,6 +12,7 @@ import {
     ShoppingBag,
     ChevronDown
 } from "lucide-react"
+import { useState } from "react";
 
 
 const menuItems = [
@@ -90,12 +91,26 @@ const menuItems = [
     },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ collapsed, onToggle, currentPage, onPageChange }) => {
 
+    const [expandedItems, setExpandedItem] = useState(new Set(["analytics"]));
+
+    const toggleExpanded = (itemid) => {
+
+        const newExpanded = new Set(expandedItems);
+
+        if(newExpanded.has(itemid)){
+            newExpanded.delete(itemid);
+        }else{
+            newExpanded.add(itemid);
+        }
+
+        setExpandedItem(newExpanded);
+    }
 
     return (
 
-        <div className="w-72 transition duration-300 ease-in-out bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-slate-200/50 dark:border-slate-700/50 flex flex-col relative z-10">
+        <div className={`${collapsed ? "w-20" : "w-72"}`}>
 
             {/* Logo */}
             <div className="p-6 border-slate-200/50 dark:border-slate-700/50">
@@ -105,14 +120,16 @@ const Sidebar = () => {
                     </div>
 
                     {/* Conditional Rendering */}
-                    <div>
-                        <h1 className="text-xl font-bold text-slate-800 dark:text-white">
-                            Nexus
-                        </h1>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">
-                            Admin Panel
-                        </p>
-                    </div>
+                    {!collapsed && (
+                        <div>
+                            <h1 className="text-xl font-bold text-slate-800 dark:text-white">
+                                Nexus
+                            </h1>
+                            <p className="text-xs text-slate-500 dark:text-slate-400">
+                                Admin Panel
+                            </p>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -122,13 +139,23 @@ const Sidebar = () => {
                 {menuItems.map((item) => {
                     return (
                         <div key={item.id}>
-                            <button className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-200`}>
+                            <button className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-200 ${currentPage === item.id || item.active ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25" : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/50"}`}
+                             onClick={ () => {
+                                if(item.id){
+                                    toggleExpanded(item.id)
+                                }else{
+                                    onPageChange(item.id)
+                                }
+                             }}>
                                 <div className="flex items-center space-x-3">
                                     <item.icon className={`w-5 h-5`} />
                                     {/* Conditional Rendering */}
 
                                     <>
-                                        <span className="font-medium ml-2">{item.label}</span>
+                                        {!collapsed && (
+                                            <span className="font-medium ml-2">{item.label}</span>
+                                        )}
+
                                         {item.badge && (
                                             <span className="px-2 py-1 text-xs bg-red-500 text-white rounded-full">{item.badge}</span>
                                         )}
@@ -137,17 +164,20 @@ const Sidebar = () => {
                                         )}
                                     </>
                                 </div>
-                                {item.submenu && (
-                                    <ChevronDown className="w-4 h-4 transition-transform" />
+                                {!collapsed && item.submenu && (
+                                    <ChevronDown className={`w-4 h-4 transition-transform`} />
                                 )}
                             </button>
 
                             {/* Sub menus */}
-                            <div className="ml-8 mt-2 space-y-1">
-                                {/* {item.submenu.map( (subitem) => {
-                                    return <button>{subitem.label}</button>
-                                })} */}
-                            </div>
+
+                            {!collapsed && item.submenu && (
+                                <div className="ml-8 mt-2 space-y-1">
+                                    {item.submenu.map((subitem) => {
+                                        return <button>{subitem.label}</button>
+                                    })}
+                                </div>
+                            )}
                         </div>
                     )
                 })}
@@ -156,7 +186,8 @@ const Sidebar = () => {
             {/* User Profile */}
 
             <div className="p-4 border-t border-slate-200/50 dark:border-slate-700/50">
-                <div className="flex items-center space-x-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+              {!collapsed && (
+                  <div className="flex items-center space-x-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
                     <img
                         src=""
                         alt=""
@@ -173,6 +204,7 @@ const Sidebar = () => {
                         </div>
                     </div>
                 </div>
+              )}
             </div>
 
 
