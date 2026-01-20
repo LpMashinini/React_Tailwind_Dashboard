@@ -1,4 +1,4 @@
-import { ArrowRight, DollarSign, Eye, ShoppingCart, Users } from "lucide-react"
+import { ArrowDownRight, ArrowRight, ArrowUpRight, DollarSign, Eye, ShoppingCart, Users } from "lucide-react"
 
 const stats = [
     {
@@ -59,17 +59,18 @@ const StatsGrid = () => {
                                     {stats.value}
                                 </p>
                                 <div className="flex items-center space-x-2">
-                                    <ArrowRight className="w-4 h-4" />
-                                    <span>Stats Change</span>
-                                    <span className="text-sm text-slate-500 dark:text-slate-400">vs Last</span>
+                                    {stats.trend === "up" ? <ArrowUpRight className="w-4 h-4 text-emerald-500" /> : <ArrowDownRight className="w-4 h-4 text-red-500"/>}
+                                    <span className={`text-sm font-semibold ${stats.trend === "up" ? "text-emerald-500" : "text-red-500"}`}>{stats.change}</span>
+                                    <span className="text-sm text-slate-500 dark:text-slate-400">vs Last month</span>
                                 </div>
                             </div>
-                            <div className={`p-3 rounded-xl group-hover:scale-110 transition-all duration-200`}>
+                            <div className={`p-3 rounded-xl ${stats.bgColor} group-hover:scale-110 transition-all duration-300`}>
+                                {<stats.icon className={`w-6 h-6 ${stats.textColor}`}/>}
                             </div>
                         </div>
                         {/* ProgressBar */}
-                        <div className="mt-4 h2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                            <div className={`w-full bg-gradient-to-r rounded-full transition-all duration-100`}>
+                        <div className="mt-4 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                            <div className={`h-full bg-gradient-to-r ${stats.color} rounded-full transition-all duration-100`} style={{width: stats.trend === "up" ? "75%" : "45%"}}>
 
                             </div>
                         </div>
