@@ -74,7 +74,7 @@ const TableSection = () => {
                 {/* Table  */}
 
                 <div className="overflow-x-auto">
-                    <div className="w-full">
+                    <table className="w-full">
                         <thead>
                             <tr>
                                 <th className="text-left p-4 text-sm font-semibold text-slate-600">
@@ -97,7 +97,7 @@ const TableSection = () => {
                         <tbody>
                             {recentOrders.map((order, index) => {
                                 return (
-                                    <tr  className="border-b border-slate-200/50 dark:border-slate-700/50 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <tr className="border-b border-slate-200/50 dark:border-slate-700/50 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
                                         <td key={index} className="p-4">
                                             <span className="text-sm font-medium text-blue">
                                                 {order.id}
@@ -132,7 +132,7 @@ const TableSection = () => {
                                 )
                             })}
                         </tbody>
-                    </div>
+                    </table>
                 </div>
             </div>
 
